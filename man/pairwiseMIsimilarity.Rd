@@ -9,19 +9,25 @@ pairwiseMIsimilarity(
   divisions = 1,
   discretizations = 1,
   n.contrast = max(ncol(data), 30),
+  range = 0,
+  pc.xi = 0.25,
   p.adjust.method = "holm",
   level = 0.05,
   seed = NULL
 )
 }
 \arguments{
-\item{data}{input data.frame where columns are variables and rows are observations (all numeric, discrete variables with same number of categories)}
+\item{data}{input data.frame where columns are variables and rows are observations (all numeric)}
 
 \item{divisions}{number of divisions}
 
 \item{discretizations}{number of discretizations}
 
 \item{n.contrast}{number of contrast variables}
+
+\item{range}{discretization range}
+
+\item{pc.xi}{parameter xi used to compute pseudocounts (the default is recommended not to be changed)}
 
 \item{p.adjust.method}{method as accepted by \code{\link[stats]{p.adjust}} (\code{"BY"} is recommended for FDR, see Details)}
 

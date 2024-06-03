@@ -104,10 +104,12 @@ pairwiseMIsimilarityDiscrete			<- function(data,
 #' In case of FDR control it is recommended to use Benjamini-Hochberg-Yekutieli p-value adjustment
 #' method (\code{"BY"} in \code{\link[stats]{p.adjust}}) due to unknown dependencies between tests.
 #'
-#' @param data input data.frame where columns are variables and rows are observations (all numeric, discrete variables with same number of categories)
+#' @param data input data.frame where columns are variables and rows are observations (all numeric)
 #' @param divisions number of divisions
 #' @param discretizations number of discretizations
 #' @param n.contrast number of contrast variables
+#' @param range discretization range
+#' @param pc.xi parameter xi used to compute pseudocounts (the default is recommended not to be changed)
 #' @param p.adjust.method method as accepted by \code{\link[stats]{p.adjust}} (\code{"BY"} is recommended for FDR, see Details)
 #' @param level statistical significance level
 #' @param seed random seed for randomized discretization procedure

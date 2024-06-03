@@ -128,6 +128,8 @@ pairwiseMIsimilarity <- function(data,
                                  divisions=1,
                                  discretizations=1,
                                  n.contrast = max(ncol(data), 30),
+				 range=0,
+				 pc.xi=0.25,
                                  p.adjust.method="holm", 
                                  level=0.05,
                                  seed=NULL){
@@ -137,8 +139,6 @@ pairwiseMIsimilarity <- function(data,
   data <- as.data.frame(data)
   if (!is.null(seed)) set.seed(seed)
   
-  
-  #transform many confounders into a single one
   
   
   #contrast variables
@@ -158,6 +158,9 @@ pairwiseMIsimilarity <- function(data,
                                  dimensions=2,
                                  divisions=divisions,
                                  discretizations=discretizations,
+				 seed=seed,
+				 range=range,
+				 pc.xi=pc.xi,
                                  return.matrix=TRUE,
                                  stat_mode="MI")*nrow(data)
   
@@ -165,6 +168,9 @@ pairwiseMIsimilarity <- function(data,
                                                                             dimensions=2,
                                                                             divisions=divisions,
                                                                             discretizations=discretizations,
+									    seed=seed,
+									    range=range,
+									    pc.xi=pc.xi,
                                                                             return.matrix=TRUE,
                                                                             stat_mode="MI")*nrow(data)
   

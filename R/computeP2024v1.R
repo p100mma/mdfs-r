@@ -9,10 +9,10 @@
 #' @param df vector of degrees of freedom for each variable (optional)
 #' @param ig.in.bits \code{TRUE} if input is in binary log (as opposed to natural log)
 #' @param ig.doubled \code{TRUE} if input is doubled (to follow the chi-squared distribution)
-#' @param param.median \code{TRUE} if FILL ME WITH TEXT
-#' @param n.outliers FILL ME WITH TEXT
-#' @param max.outliers FILL ME WITH TEXT
-#' @param level FILL ME WITH TEXT
+#' @param param.median \code{TRUE} if the null distribution parameter is estimated by the median of \code{IG} for contrast variables, rather than the mean value. This method is robust for outliers, although less precise.
+#' @param n.outliers Specify \code{n.outliers} when the number of outliers (i.e. values of \code{IG} exceptionally close to zero) is known, e.g. to be zero.
+#' @param max.outliers maximum possible number of outliers. Default value is 1/4 of the number of \code{IG} values.
+#' @param level significance level for outlier detection. Change of the default value 0.05 is not recommended.
 #' @return A \code{\link{data.frame}} with class set to \code{MDFS}. Can be coerced back to \code{data.frame} using \code{\link{as.data.frame}}.
 #'
 #'  The following columns are present:

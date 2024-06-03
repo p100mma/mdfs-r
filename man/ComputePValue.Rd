@@ -39,13 +39,13 @@ ComputePValue(
 
 \item{ig.doubled}{\code{TRUE} if input is doubled (to follow the chi-squared distribution)}
 
-\item{param.median}{\code{TRUE} if FILL ME WITH TEXT}
+\item{param.median}{\code{TRUE} if the null distribution parameter is estimated by the median of \code{IG} for contrast variables, rather than the mean value. This method is robust for outliers, although less precise.}
 
-\item{n.outliers}{FILL ME WITH TEXT}
+\item{n.outliers}{Specify \code{n.outliers} when the number of outliers (i.e. values of \code{IG} exceptionally close to zero) is known, e.g. to be zero.}
 
-\item{max.outliers}{FILL ME WITH TEXT}
+\item{max.outliers}{maximum possible number of outliers. Default value is 1/4 of the number of \code{IG} values.}
 
-\item{level}{FILL ME WITH TEXT}
+\item{level}{significance level for outlier detection. Change of the default value 0.05 is not recommended.}
 }
 \value{
 A \code{\link{data.frame}} with class set to \code{MDFS}. Can be coerced back to \code{data.frame} using \code{\link{as.data.frame}}.

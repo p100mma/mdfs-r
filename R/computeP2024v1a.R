@@ -49,29 +49,29 @@ ComputePValue <- function(
  level = 0.05
 ) {
  #check the reasonability of input
-
- if (length(IG)<4 || sum(is.na(as.numeric(IG)))>0 || sum(!is.numeric(IG))>0) {
+ 
+ if (length(IG)<4 || any(is.na(as.numeric(IG))) || any(!is.numeric(IG))) {
   stop('IG has to be a numeric vector of length above 3, without N/A values')
  }
 
- if (as.integer(dimensions) != dimensions || dimensions < 1) {
+ if (is.null(dimensions) || is.na(dimensions) || as.integer(dimensions) != dimensions || dimensions < 1) {
   stop('Dimensions has to be a positive integer')
  }
  
- if (as.integer(divisions) != divisions || divisions < 1) {
+ if (is.na(divisions) || is.null(divisions) || as.integer(divisions) != divisions || divisions < 1) {
   stop('Divisions has to be a positive integer')
  }
 
- if (as.integer(discretizations) != discretizations || discretizations < 1) {
+ if (is.na(discretizations) || is.null(discretizations) || as.integer(discretizations) != discretizations || discretizations < 1) {
   stop('Discretizations has to be a positive integer')
  }
 
- if (as.integer(response.divisions) != response.divisions || response.divisions < 1) {
+ if (is.na(response.divisions) || is.null(response.divisions) || as.integer(response.divisions) != response.divisions || response.divisions < 1) {
   stop('Response.divisions has to be a positive integer')
  }
 
  if (!is.null(df)) {
-  if (sum(is.na(as.integer(df)))>0 || sum(as.integer(df)!=df)>0 || sum(df<1)>0) stop('Df has to be a vector of positive integers')
+  if (any(is.na(as.integer(df))) || any(as.integer(df)!=df) || any(df<1)) stop('Df has to be a vector of positive integers')
   if (length(df) != 1 && length(df) != length(IG)) stop('Df has to have the same length as IG or 1')
  }
 
@@ -81,12 +81,12 @@ ComputePValue <- function(
    stop('Contrast.mask has to specify a vector of length above 3')
   }
   
-  if (as.numeric(level) != level || level<=0 || level>=1) {
+  if (is.na(level) || is.null(level) || as.numeric(level) != level || level<=0 || level>=1) {
    stop('Level has to be a number between 0 and 1')
   } 
   
   if (!is.null(n.outliers)) {
-   if (as.integer(n.outliers) != n.outliers || 
+   if (is.na(n.outliers) || as.integer(n.outliers) != n.outliers || 
        n.outliers<0 || 
        n.outliers>length(IG[contrast.mask])-4) {
     stop('N.outliers must be a positive integer smaller than the number of contrast variables')
@@ -95,13 +95,17 @@ ComputePValue <- function(
   if (is.null(max.outliers)) {
    max.outliers <- ceiling(length(IG[contrast.mask])/4)
   } else {
-   if (as.integer(max.outliers) != max.outliers || 
+   if (is.na(max.outliers) || as.integer(max.outliers) != max.outliers || 
        max.outliers<0 || 
        max.outliers>length(IG[contrast.mask])-4) {
     stop('Max.outliers must be a positive integer smaller than the number of contrast variables')
    }
   }
  } 
+
+ if (is.null(ig.in.bits) || is.na(ig.in.bits) || 
+     is.null(ig.doubled) || is.na(ig.doubled) ||
+     is.null(param.median) || is.na(param.median)) stop('ig.in.bits, ig.doubled, param.median cannot by NULL or NA')
 
  IG.original <- IG
  
@@ -132,24 +136,26 @@ ComputePValue <- function(
   chisq.log.contrast <- chisq.log[contrast.mask]
   chisq.log.contrast <- chisq.log.contrast[order(chisq.log.contrast)]
   n.contrast <- length(chisq.log.contrast)
-  min.important<-n.contrast-max.outliers
+
+  #number of contrast scores not being outliers
+  if (!is.null(n.outliers)) {
+   n.important <- n.contrast-n.outliers
+   fdr.outliers <- NULL
+  } else {
+   min.important<-n.contrast-max.outliers
   
   #compute cumulative means of chisq.contrast
 #  means <- cumsum(chisq.log.contrast)/(1+(1:n.contrast))
 #  medians are more robust to outliers  
-  medians <- (c(0,chisq.log.contrast)[1+floor((1:n.contrast)/2)]+chisq.log.contrast[ceiling((1:n.contrast)/2)])/2
+   medians <- (c(0,chisq.log.contrast)[1+floor((1:n.contrast)/2)]+chisq.log.contrast[ceiling((1:n.contrast)/2)])/2
 
   #compute fdr that a least IG is an outlier.
 # fdr.outliers <- p.adjust(exp(-chisq.log.contrast/means),'fdr') 
 # p.adjust written explicitely  
 # fdr.outliers <- cummin((exp(-chisq.log.contrast/means)*n.contrast/(n.contrast:1))[(min.important+1):n.contrast])
 # medians are more robust, lack of the factor log(2) gives a linear growth
-  fdr.outliers <- cummin((exp(-chisq.log.contrast/medians)*n.contrast/(n.contrast:1))[(min.important+1):n.contrast])
+   fdr.outliers <- cummin((exp(-chisq.log.contrast/medians)*n.contrast/(n.contrast:1))[(min.important+1):n.contrast])
 
-  #number of contrast scores not being outliers
-  if (!is.null(n.outliers)) {
-   n.important <- n.contrast-n.outliers
-  } else {
    n.important<-min.important+max(0, which(fdr.outliers>level))
 
    if (n.important==min.important) {

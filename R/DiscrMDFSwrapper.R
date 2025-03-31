@@ -53,7 +53,6 @@ MDFS.discrete<-function(data,
   }
   
   #compute IG
-  IG <- rep(0, ncol(data)+ncol(contrast_data))
   
   MIG.Result <- ComputeMaxInfoGainsDiscrete(data=data,
                                             decision=decision,
@@ -61,18 +60,25 @@ MDFS.discrete<-function(data,
                                             dimensions = dimensions,
                                             pc.xi = pc.xi)
   
-  IG <- IG+c(MIG.Result$IG, attr(MIG.Result, "contrast_igs"))
+  IG <- c(MIG.Result$IG, attr(MIG.Result, "contrast_igs"))
   
   #p-value
   divisions <- length(unique(data[,1]))-1
-  PV <- ComputePValue(IG, dimensions, divisions, discretizations=1, response.divisions=1, contrast.mask=contrast.mask)
+  fs <- ComputePValue(IG, dimensions, divisions, discretizations=1, response.divisions=1, contrast.mask=contrast.mask)
   
+  statistic <- MIG.Result$IG
+  p.value <- fs$p.value[seq_len(ncol(data))]
+  adjusted.p.value <- p.adjust(p.value, method=p.adjust.method)
+  relevant.variables <- which(adjusted.p.value<level)
   #result
   result <- list(contrast.indices = contrast.indices,
-                 statistic = PV$statistic,
-                 p.value = PV$p.value,
-                 adjusted.p.value = p.adjust(PV$p.value,method=p.adjust.method),
-                 relevant.variables = which(p.adjust(PV$p.value,method=p.adjust.method)<level))
-  
+  		 contrast.variables = contrast_data,
+  		 MIG.Result = MIG.Result,
+  		 MDFS = fs,
+                 statistic =statistic,
+                 p.value = p.value,
+                 adjusted.p.value = adjusted.p.value,
+                 relevant.variables = relevant.variables
+		)
   return(result)
 }

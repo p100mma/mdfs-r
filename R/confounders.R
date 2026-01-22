@@ -246,7 +246,7 @@ MDFS.confounded<-function(data,
  
  #result
  result <- list(contrast.indices = contrast.indices,
-                statistic = PV$statistic,
+                statistic = IG,
                 p.value = PV$p.value,
                 adjusted.p.value = p.adjust(PV$p.value,method=p.adjust.method),
                 relevant.variables = which(p.adjust(PV$p.value,method=p.adjust.method)<level))
@@ -347,7 +347,7 @@ MDFS.discrete.confounded<-function(data,
  
  #result
  result <- list(contrast.indices = contrast.indices,
-                statistic = PV$statistic,
+                statistic = IG,
                 p.value = PV$p.value,
                 adjusted.p.value = p.adjust(PV$p.value,method=p.adjust.method),
                 relevant.variables = which(p.adjust(PV$p.value,method=p.adjust.method)<level))

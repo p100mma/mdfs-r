@@ -41,7 +41,8 @@ symmetrizeMatrix <- function (A, pairwiseSelectionFunction=pmin) {
 #'  }
 #' @examples
 #' \donttest{
-#' as.data.frame(lapply(as.data.frame(madelon$data), function(COL) 1.*(COL > median(COL)) ) )-> discr_data
+#' as.data.frame(lapply(as.data.frame(madelon$data),
+#'  function(COL) 1.*(COL > median(COL)) ) )-> discr_data
 #' pairwiseMIsimilarityDiscrete(discr_data, 1)
 #' }
 #' @importFrom stats p.adjust

@@ -69,5 +69,5 @@ A \code{\link{data.frame}} with class set to \code{MDFS}. Can be coerced back to
 Compute p-values from information gains and return MDFS
 }
 \examples{
-ComputePValue(madelon$IG.2D, dimensions = 2, divisions = 1)
+ComputePValue(madelon$IG.2D, dimensions = 1, divisions = 1, discretizations=1)
 }

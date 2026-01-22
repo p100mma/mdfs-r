@@ -30,8 +30,8 @@
 #'   \item \code{n.outliers} -- FILL ME WITH TEXT
 #'  }
 #' @examples
-#' ComputePValue(madelon$IG.2D, dimensions = 2, divisions = 1)
-#' @importFrom stats pchisq ks.test
+#' ComputePValue(madelon$IG.2D, dimensions = 1, divisions = 1, discretizations=1)
+#' @importFrom stats pchisq ks.test median
 #' @export
 ComputePValue <- function(
  IG,

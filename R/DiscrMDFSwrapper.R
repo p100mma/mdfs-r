@@ -22,7 +22,8 @@
 #'  }
 #' @examples
 #' \donttest{
-#' as.data.frame(lapply(as.data.frame(madelon$data), function(COL) 1.*(COL > median(COL)) ) )-> discr_data
+#' as.data.frame(lapply(as.data.frame(madelon$data),
+#'  function(COL) 1.*(COL > median(COL)) ) )-> discr_data
 #' MDFS.discrete(discr_data, madelon$decision, dimensions = 2)
 #' }
 #' @importFrom stats p.adjust
